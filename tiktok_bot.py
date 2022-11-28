@@ -6,8 +6,21 @@ from bs4 import BeautifulSoup
 from random import shuffle
 
 class tiktok:
+    def __init__(self):
+        pass
+        
+    def upload_video(self, video, title, related_hashtag_keyword, profile="Default"):
+        """
+        Use example:
 
-    def upload_video(video, title, related_hashtag_keyword, profile="Default"):
+        from tiktok_bot import tiktok
+
+        obj = tiktok()
+        obj.upload_video(video=r'C:\myvideo.mp4',
+                            title="Tutorial #shorts ",
+                            related_hashtag_keyword="fyp",
+                            profile="Default")
+        """
         options = webdriver.ChromeOptions()
         options.add_argument("--log-level=3")
         options.add_argument("user-data-dir=C:\\Users\\AlexisMantecon\\AppData\\Local\\Google\\Chrome Beta\\User Data")
@@ -24,7 +37,7 @@ class tiktok:
         # Setting a caption
         while True:
             try:
-                caption = title + tiktok.get_RelatedHashtags(related_hashtag_keyword, (145 - len(title)))
+                caption = title + self.get_RelatedHashtags(related_hashtag_keyword, (145 - len(title)))
                 caption_input = bot.find_element(By.XPATH, '//div[contains(@class, "notranslate public-DraftEditor-content")]')
                 caption_input.send_keys(caption)
                 break
@@ -66,7 +79,7 @@ class tiktok:
                 time.sleep(30)
         bot.quit()
         
-    def get_RelatedHashtags(keyword, char_limit):
+    def get_RelatedHashtags(self, keyword, char_limit):
         r = requests.get("https://tiktokhashtags.com/hashtag/" + keyword + "/")
         c = r.content
 
