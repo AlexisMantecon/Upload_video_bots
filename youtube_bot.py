@@ -108,7 +108,7 @@ class youtube:
             try:
                 post_button = bot.find_element(
                     By.XPATH, '//*[@id="done-button"]')
-                # post_button.click()
+                post_button.click()
                 break
             except:
                 print("Unable to locate post button, trying again ...")
