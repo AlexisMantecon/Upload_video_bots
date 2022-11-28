@@ -64,7 +64,8 @@ class tiktok:
                 print("Unable to locate post button, trying again ...")
             finally:
                 time.sleep(30)
-
+        bot.quit()
+        
     def get_RelatedHashtags(keyword, char_limit):
         r = requests.get("https://tiktokhashtags.com/hashtag/" + keyword + "/")
         c = r.content
