@@ -73,6 +73,7 @@ class facebook:
                 print("Unable to locate post button, trying again ...")
             finally:
                 time.sleep(30)
+        bot.quit()
 
     def get_RelatedHashtags(keyword, char_limit):
         r = requests.get("https://best-hashtags.com/hashtag/" + keyword + "/")
