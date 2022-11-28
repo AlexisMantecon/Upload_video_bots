@@ -5,9 +5,24 @@ from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
 from random import shuffle
 
-class facebook:
 
-    def upload_video(video, title, related_hashtag_keyword, page_name, profile="Default"):
+class facebook:
+    def __init__(self):
+        pass
+        
+    def upload_video(self, video, title, related_hashtag_keyword, page_name, profile="Default"):
+        """
+        Use example:
+
+        from facebook_bot import facebook
+
+        obj = facebook()
+        obj.upload_video(video=r'C:\myvideo.mp4',
+                            title="Tutorial #shorts ",
+                            related_hashtag_keyword="fyp",
+                            page_name="MiFBPage",
+                            profile="Default")
+        """
         options = webdriver.ChromeOptions()
         options.add_argument("--log-level=3")
         options.add_argument("user-data-dir=C:\\Users\\AlexisMantecon\\AppData\\Local\\Google\\Chrome Beta\\User Data")
@@ -54,7 +69,7 @@ class facebook:
         # Setting a caption
         while True:
             try:
-                caption = title + facebook.get_RelatedHashtags(related_hashtag_keyword, 200)
+                caption = title + self.get_RelatedHashtags(related_hashtag_keyword, 200)
                 caption_input = bot.find_element(By.XPATH, '//div[contains(@aria-label, "¿Qué estás pensando?")]/p')
                 caption_input.send_keys(caption)
                 break
@@ -74,8 +89,8 @@ class facebook:
             finally:
                 time.sleep(30)
         bot.quit()
-
-    def get_RelatedHashtags(keyword, char_limit):
+        
+    def get_RelatedHashtags(self, keyword, char_limit):
         r = requests.get("https://best-hashtags.com/hashtag/" + keyword + "/")
         c = r.content
 
