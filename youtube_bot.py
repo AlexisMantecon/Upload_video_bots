@@ -84,7 +84,7 @@ class youtube:
                 desc_input.send_keys(desc)
                 break
             except Exception as e:
-                print("Unable to locate title field, trying again ... \n {}".format(e))
+                print("Unable to locate desc field, trying again ... \n {}".format(e))
             finally:
                 time.sleep(5)
 
@@ -117,26 +117,34 @@ class youtube:
         bot.quit()
 
     def get_RelatedHashtags(self, keyword, char_limit):
+        try:
+            r = requests.get(
+                "https://best-hashtags.com/hashtag/" + keyword + "/")
+            c = r.content
 
-        r = requests.get("https://best-hashtags.com/hashtag/" + keyword + "/")
-        c = r.content
+            soup = BeautifulSoup(c, "html.parser")
 
-        soup = BeautifulSoup(c, "html.parser")
+            hashtags = []
+            for word in ["popular", "medium", "easy"]:
+                try:
+                    print("Looking for " + word + " hashtags ...")
+                    element = soup.find_all("div", {"id": word})
+                    element = element[0].find_all("div", {"class": "tag-box"})
+                    element = element[0].find_all()
+                    element = element[0].text
+                    for hashtag in element.split(" "):
+                        hashtags.append(hashtag)
+                except:
+                    next
 
-        hashtags = []
-        for word in ["popular", "medium", "easy"]:
-            element = soup.find_all("div", {"id": word})
-            element = element[0].find_all("div", {"class": "tag-box"})
-            element = element[0].find_all()
-            element = element[0].text
-            for hashtag in element.split(" "):
-                hashtags.append(hashtag)
+            hashtags = set(hashtags)
+            hashtags = list(hashtags)
+            shuffle(hashtags)
 
-        hashtags = set(hashtags)
-        hashtags = list(hashtags)
-        shuffle(hashtags)
+            while len(" ".join(hashtags)) > char_limit:
+                hashtags = hashtags[:-1]
 
-        while len(" ".join(hashtags)) > char_limit:
-            hashtags = hashtags[:-1]
-
-        return " ".join(hashtags)
+            return " ".join(hashtags)
+        except Exception as e:
+            print("Unable to get hashtags ... \n {}".format(e))
+            return "#NoHuboHashtagsCompa"
