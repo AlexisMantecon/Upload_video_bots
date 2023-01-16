@@ -51,13 +51,14 @@ class youtube:
         while True:
             try:
                 file_input = bot.find_element(
-                    By.XPATH, '//*[@id="content"]/input')
+                    By.XPATH, '//input[@name="Filedata"]')
                 file_input.send_keys(video)
                 break
-            except:
-                print("Unable to locate video file input, trying again ...")
+            except Exception as e:
+                print(
+                    "Unable to locate video file input, trying again ... \n {}".format(e))
             finally:
-                time.sleep(5)
+                time.sleep(10)
 
         # Setting a caption
         while True:
@@ -72,7 +73,7 @@ class youtube:
             except Exception as e:
                 print("Unable to locate title field, trying again ... \n {}".format(e))
             finally:
-                time.sleep(5)
+                time.sleep(10)
 
         # Adding hashtags
         while True:
@@ -86,7 +87,7 @@ class youtube:
             except Exception as e:
                 print("Unable to locate desc field, trying again ... \n {}".format(e))
             finally:
-                time.sleep(5)
+                time.sleep(10)
 
         # Clicking next button 3 times
         while True:
@@ -101,20 +102,23 @@ class youtube:
                 print(
                     "Unable to locate next button {i}, trying again ...".format(i))
             finally:
-                time.sleep(5)
+                time.sleep(10)
 
         # Clicking post button
         while True:
             try:
+                bot.find_element(
+                    By.XPATH, '//span[text()[contains(., "Se completaron las verificaciones. No se encontraron problemas.")]]')
+                print("Verification done ...")
                 post_button = bot.find_element(
                     By.XPATH, '//*[@id="done-button"]')
-                post_button.click()
+                # post_button.click()
                 break
             except:
-                print("Unable to locate post button, trying again ...")
+                print("Verification still in progress, trying again ...")
             finally:
                 time.sleep(30)
-        bot.quit()
+        # bot.quit()
 
     def get_RelatedHashtags(self, keyword, char_limit):
         try:
@@ -148,3 +152,4 @@ class youtube:
         except Exception as e:
             print("Unable to get hashtags ... \n {}".format(e))
             return "#NoHuboHashtagsCompa"
+ 
