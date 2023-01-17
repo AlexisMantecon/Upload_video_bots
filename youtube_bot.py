@@ -112,7 +112,7 @@ class youtube:
                 print("Verification done ...")
                 post_button = bot.find_element(
                     By.XPATH, '//*[@id="done-button"]')
-                # post_button.click()
+                post_button.click()
                 break
             except:
                 print("Verification still in progress, trying again ...")
